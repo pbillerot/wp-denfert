@@ -1,0 +1,23 @@
+
+
+
+
+    <div class="w3-col m4">
+        <h5 class=""><b>Liens</b></h5>
+        <hr style="width:50px;border:2px solid" class="w3-round w3-text-theme">
+        <div class="w3-bar-block">
+        <?php
+            $location = 'footer_menu'
+            wp_nav_menu( array( 'theme_location' => 'footer_menu', 'menu_class' => 'nav-menu' ) );
+            if ( has_nav_menu( $location ) ) {
+                $locations = get_nav_menu_locations(); 
+                $menuID = $locations[$location];
+                // dump($menuFooter);
+                $menuNav = wp_get_nav_menu_items($menuID);
+                foreach ( $menuNav as $navItem ):
+                    echo '<a href="'.$navItem->url.'" title="'.$navItem->title.'" class="w3-bar-item w3-button w3-hover-white w3-text-theme">'.$navItem->title.'</a>';
+                endforeach;
+            }
+        ?>
+        </div><!-- /w3-bar -->
+    </div><!-- /w3-col -->
