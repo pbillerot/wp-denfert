@@ -6,7 +6,7 @@ http://www.geekpress.fr/wp-query-creez-des-requetes-personnalisees-dans-vos-them
 /**
 Chargement des scripts du front-end
  */
-define('DENFERT_VERSION', '0.0.3');
+define('DENFERT_VERSION', '0.1.0');
 
 // Chargement dans le front-end
 function denfert_enqueue_scripts()
@@ -20,7 +20,7 @@ function denfert_enqueue_scripts()
     or strpos(get_page_template(), 'intranet') > 0) {
         wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
     } else { 
-        wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-red.css', array('denfert-w3'), DENFERT_VERSION, 'all');
+        wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-indigo.css', array('denfert-w3'), DENFERT_VERSION, 'all');
     }
 
     // le style du site
@@ -210,10 +210,10 @@ Ajout de widgets
 /**
 Obtention des catégories et tags des artcles publiés et privés (si connecté)
 */
-function denfert_get_categories_tags() {
+function denfert_get_categories_tags($status) {
     $args = array(
         'post_type' => 'post',
-        'post_status' => 'publich,private',
+        'post_status' => $status,
         'posts_per_page' => -1
     );
     $req = new WP_Query($args);

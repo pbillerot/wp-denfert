@@ -36,7 +36,11 @@ $req_blog = new WP_Query($args_blog);
     <div class="w3-container">
       <p>
     <?php
-      $cats_tags = denfert_get_categories_tags(); 
+      if ( is_user_logged_in(  ) ) {
+        $cats_tags = denfert_get_categories_tags('publish,private'); 
+      } else {
+        $cats_tags = denfert_get_categories_tags('publish'); 
+      }
       $cats = $cats_tags['categories'];
       $tags = $cats_tags['tags'];
       ?>

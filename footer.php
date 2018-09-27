@@ -19,11 +19,15 @@
                 </div><!-- /w3-bar -->
             </div><!-- /w3-col -->
             <div class="w3-col m4">
+                <h5 class=""><b>A venir</b></h5>
+                <hr style="width:50px;border:2px solid" class="w3-round w3-text-theme">
+            </div><!-- /w3-col -->
+            <div class="w3-col m4">
                 <?php
                     $locations = get_nav_menu_locations(); 
                     $menuID = $locations['location_menu_footer_prive'];
                     if (! empty ($menuID)) {
-                        echo '<h5 class=""><b>Espace Comité</b></h5>';
+                        echo '<h5 class=""><b>Administration</b></h5>';
                         echo '<hr style="width:50px;border:2px solid" class="w3-round w3-text-theme">';
                         echo '<div class="w3-bar-block">';
                         if ( is_user_logged_in() ) {
@@ -38,10 +42,6 @@
                     }
                 ?>
                 </div><!-- /w3-bar -->
-            </div><!-- /w3-col -->
-            <div class="w3-col m4">
-                <h5 class=""><b>A venir</b></h5>
-                <hr style="width:50px;border:2px solid" class="w3-round w3-text-theme">
             </div><!-- /w3-col -->
         </div><!-- /w3-row -->
     </div><!-- /container -->
