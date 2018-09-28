@@ -37,7 +37,7 @@
                             endforeach;
                             echo '<a href="'.wp_logout_url("/").'" title="Se déconnecter" class="w3-bar-item w3-button w3-hover-white w3-text-theme">'."Se déconnecter".'</a>';
                         } else {
-                            echo '<a href="'.wp_login_url("/espace-prive").'" title="Se connecter" class="w3-bar-item w3-button w3-hover-white w3-text-theme">'."Se connecter...".'</a>';
+                            echo '<a href="'.wp_login_url("/").'" title="Se connecter" class="w3-bar-item w3-button w3-hover-white w3-text-theme">'."Se connecter...".'</a>';
                         } // endif
                     }
                 ?>

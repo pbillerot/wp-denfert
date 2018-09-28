@@ -16,12 +16,9 @@ function denfert_enqueue_scripts()
     // chargement des styles
     wp_enqueue_style('denfert-w3', get_template_directory_uri() . '/css/w3.css', array(), DENFERT_VERSION, 'all');
     // le thème W3
-    if ( strpos(get_page_template(), 'espace-prive') > 0 
-    or strpos(get_page_template(), 'intranet') > 0) {
-        wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
-    } else { 
-        wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-indigo.css', array('denfert-w3'), DENFERT_VERSION, 'all');
-    }
+    // wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
+
+    wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-'.denfert_get_w3_theme().'.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
     // le style du site
     wp_enqueue_style('denfert-style', get_template_directory_uri() . '/style.css', array('denfert-w3-theme'), DENFERT_VERSION, 'all');
@@ -235,4 +232,19 @@ function denfert_get_categories_tags($status) {
         }
     }
     return array('categories' => $cata, 'tags' => $taga);
+}
+
+/**
+Obtention du thème W3.CSS
+*/
+function denfert_get_w3_theme() {
+    $theme_str = get_custom('w3_theme'); 
+    $themes = preg_split("/\n/", $theme_str);
+    $w3_theme = "indigo";
+    foreach ($themes as $theme => $val) {
+        if ( preg_match('/^\*./', $val) ) {
+            $w3_theme = str_replace("\r", "", str_replace("*", "", $val));
+        }
+    }
+    return $w3_theme;
 }
