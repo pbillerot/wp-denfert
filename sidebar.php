@@ -16,9 +16,19 @@ $req_blog = new WP_Query($args_blog);
     <ul class="w3-ul w3-hoverable w3-white">
 <?php if ($req_blog->have_posts()): ?>
   <?php while ($req_blog->have_posts()): $req_blog->the_post();?>
-	      <li class="w3-padding-16 w3-text-theme">
-          <a href="<?php the_permalink();?>" style="text-decoration: none;"><span class="w3-large"><?php the_title();?></span></a>
-	      </li>
+    <?php 
+      if ( is_user_logged_in()
+      and is_denfert_cookie("denfert_private_checked") ):
+        if ( $post->post_status == 'private'):?>
+          <li class="w3-padding-16 w3-text-theme">
+            <a href="<?php the_permalink();?>" style="text-decoration: none;"><span class="w3-large"><?php the_title();?></span></a>
+	        </li>
+        <?php endif; ?>
+        <?php else: ?>
+	        <li class="w3-padding-16 w3-text-theme">
+            <a href="<?php the_permalink();?>" style="text-decoration: none;"><span class="w3-large"><?php the_title();?></span></a>
+	        </li>
+      <?php endif; ?>
 	  <?php endwhile;?>
 <?php endif;?>
 <?php wp_reset_postdata();?>
@@ -37,7 +47,11 @@ $req_blog = new WP_Query($args_blog);
       <p>
     <?php
       if ( is_user_logged_in(  ) ) {
-        $cats_tags = denfert_get_categories_tags('publish,private'); 
+        if ( is_denfert_cookie("denfert_private_checked")) {
+          $cats_tags = denfert_get_categories_tags('private'); 
+        } else {
+          $cats_tags = denfert_get_categories_tags('publish,private'); 
+        }
       } else {
         $cats_tags = denfert_get_categories_tags('publish'); 
       }
@@ -59,6 +73,13 @@ $req_blog = new WP_Query($args_blog);
       </span>
     <?php endforeach;?>
       </p>
+      <!-- Coche Privé seulement -->
+      <?php if ( is_user_logged_in() ): ?>
+        <p>
+        <input id="denfert_private_checked_id" class="w3-check" type="checkbox" <?php echo is_denfert_cookie('denfert_private_checked') ? 'checked="checked"' : '';?>>
+        <label>Articles Privés seulement</label>
+        </p>
+      <?php endif; ?>
     </div><!-- container -->
   <!-- /CLASSEMENT -->
   </div><!-- w3-card -->

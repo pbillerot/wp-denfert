@@ -9,9 +9,16 @@
       <!-- Blog entry -->
       <?php if (have_posts()): ?>
         <?php while (have_posts()): the_post();?>
-          <?php //if ($post->post_status != 'private'): ?>
-            <?php get_template_part('content');?>
-          <?php //endif;?>
+          <?php 
+          if ( is_user_logged_in()
+          and is_denfert_cookie("denfert_private_checked") ):
+            if ( $post->post_status == 'private'):
+              get_template_part('content');
+            endif;
+          else:
+            get_template_part('content');
+          endif;
+          ?>
         <?php endwhile;?>
       <?php endif;?>
       <?php wp_reset_postdata();?>

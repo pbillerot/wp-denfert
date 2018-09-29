@@ -1,7 +1,7 @@
 <?php
 /*
 http://www.geekpress.fr/wp-query-creez-des-requetes-personnalisees-dans-vos-themes-wordpress/
-*/
+ */
 
 /**
 Chargement des scripts du front-end
@@ -18,7 +18,7 @@ function denfert_enqueue_scripts()
     // le thème W3
     // wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
-    wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-'.denfert_get_w3_theme().'.css', array('denfert-w3'), DENFERT_VERSION, 'all');
+    wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-' . denfert_get_w3_theme() . '.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
     // le style du site
     wp_enqueue_style('denfert-style', get_template_directory_uri() . '/style.css', array('denfert-w3-theme'), DENFERT_VERSION, 'all');
@@ -77,7 +77,7 @@ function denfert_setup()
         'location_menu_primary' => 'Location Menu Primary',
         'location_menu_foire_images' => "Location Menu Foire en images",
         'location_menu_footer_public' => "Location Menu Footer Public",
-        'location_menu_footer_prive' => "Location Menu Footer Privé"
+        'location_menu_footer_prive' => "Location Menu Footer Privé",
     ));
 
     // le rôle editor aura les possiblités de gérer le menu
@@ -181,7 +181,7 @@ function denfert_add_categories_to_attachments()
     );
     // Enregistrement des taxonomies pour les Media
     //register_taxonomy('dossier', 'attachment', $args);
-    register_taxonomy_for_object_type( 'category', 'attachment' );
+    register_taxonomy_for_object_type('category', 'attachment');
     register_taxonomy_for_object_type('post_tag', 'attachment');
 
 }
@@ -206,12 +206,14 @@ Ajout de widgets
 
 /**
 Obtention des catégories et tags des artcles publiés et privés (si connecté)
-*/
-function denfert_get_categories_tags($status) {
+ */
+function denfert_get_categories_tags($status)
+{
+    // dump($status);
     $args = array(
         'post_type' => 'post',
-        'post_status' => $status,
-        'posts_per_page' => -1
+        'post_status' => $status, // ça ne marche pas
+        'posts_per_page' => -1,
     );
     $req = new WP_Query($args);
     $cata = array();
@@ -219,32 +221,49 @@ function denfert_get_categories_tags($status) {
     if ($req->have_posts()) {
         while ($req->have_posts()) {
             $req->the_post();
-            $cats = get_the_category();
-            foreach ( $cats as $cat ) {
-                $cata[$cat->slug] = $cat->name;
-            }
-            $tags = get_the_tags();
-            if ( $tags ) {
-                foreach ( $tags as $tag ) {
-                    $taga[$tag->slug] = $tag->name;
+            global $post;
+            if ( strpos($status, $post->post_status) !== false ):
+                $cats = get_the_category();
+                foreach ($cats as $cat) {
+                    $cata[$cat->slug] = $cat->name;
                 }
-            }
+                $tags = get_the_tags();
+                if ($tags) {
+                    foreach ($tags as $tag) {
+                        $taga[$tag->slug] = $tag->name;
+                    }
+                }
+            endif;
         }
     }
+    wp_reset_postdata();
     return array('categories' => $cata, 'tags' => $taga);
 }
 
 /**
 Obtention du thème W3.CSS
-*/
-function denfert_get_w3_theme() {
-    $theme_str = get_custom('w3_theme'); 
+ */
+function denfert_get_w3_theme()
+{
+    $theme_str = get_custom('w3_theme');
     $themes = preg_split("/\n/", $theme_str);
     $w3_theme = "indigo";
     foreach ($themes as $theme => $val) {
-        if ( preg_match('/^\*./', $val) ) {
+        if (preg_match('/^\*./', $val)) {
             $w3_theme = str_replace("\r", "", str_replace("*", "", $val));
         }
     }
     return $w3_theme;
+}
+
+/**
+Is cookie
+*/
+function is_denfert_cookie($cookie_name) {
+    // dump($_COOKIE[$cookie_name]);
+    if ( isset($_COOKIE[$cookie_name]) and $_COOKIE[$cookie_name] != "") {
+        return true;
+    } else {
+        return false;
+    }
 }

@@ -5,6 +5,7 @@ $cat = get_the_category_list('</span> <span class="w3-tag w3-round-large w3-them
 $tag = get_the_tag_list('', '</span> <span class="w3-tag w3-round-large w3-theme-l4">');
 ?>
 <hr/>
+<?php edit_post_link('edit', '<span>', '</span>', '', 'denfert_edit_post'); ?>
 <span class="">publié le 
 <time class="entry-date" 
 datetime="<?php echo esc_attr(get_the_date('c'));?>">
