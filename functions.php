@@ -18,7 +18,9 @@ function denfert_enqueue_scripts()
     // le thème W3
     // wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
-    wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-' . denfert_get_w3_theme() . '.css', array('denfert-w3'), DENFERT_VERSION, 'all');
+    // wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-' . denfert_get_w3_theme() . '.css', array('denfert-w3'), DENFERT_VERSION, 'all');
+    $options = get_option('denfert_options');
+    wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-'.$options['theme-w3css'].'.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
     // le style du site
     wp_enqueue_style('denfert-style', get_template_directory_uri() . '/style.css', array('denfert-w3-theme'), DENFERT_VERSION, 'all');
@@ -45,12 +47,47 @@ function denfert_admin_init()
         wp_enqueue_style('denfert-w3', get_template_directory_uri() . '/css/w3.css', array(), DENFERT_VERSION, 'all');
 
     } // fin function denfert_admin_scripts
-    add_action('admin_enqueue_scripts', 'denfert_admin_scripts');
+    // add_action('admin_enqueue_scripts', 'denfert_admin_scripts');
+
+    // *** action 2 - Setting des options
+    // Enregistrement des options
+    register_setting( 'denfert_options', // nom du groupe d'options utilisé par settings_fields
+        'denfert_options', // nom des options
+        'denfert_options_validate' ); // fonction qui validera la saisie
+    // Création de la section des options
+    add_settings_section('denfert_main', // identifiant unique de la section
+        'Choix du thème de la feuille de style W3.CSS', // titre de la section
+        'denfert_section_text', // fonction d'affichage de la section
+        'denfert_theme_options'); // slug de la page fonction appelé par do_settings_sections
+    // Création du champ de saisie
+    add_settings_field('denfert_theme_w3css', // id du champ
+        'Nom du thème W3.CSS', // son label
+        'denfert_setting_theme_w3css', // sa fonction pour l'afficher
+        'denfert_theme_options', // le slug de la page
+        'denfert_main'); // id de la section
 
 } // denfert_admin_init
+add_action('admin_init', 'denfert_admin_init');
 
-//add_action('admin_init', 'denfert_admin_init');
-
+/**
+Ajout d'un menu dans les options du thème
+ */
+ function denfert_admin_menus()
+ {
+     add_menu_page(
+         'Denfert Options', // Title de la page du menu
+         'Options du thème', // Titre de la page 
+         'manage_options', // le menu sera placé en dessous
+         'denfert_theme_options', // slug du menu
+         'denfert_options_page' // function qui affichera la page
+     );
+ 
+     // Contient la fonction denfert_options_page
+     include 'denfert-options-page.php';
+ 
+ }
+ add_action('admin_menu', 'denfert_admin_menus');
+ 
 /**
 Utilitaires
  */
