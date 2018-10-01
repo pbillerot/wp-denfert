@@ -6,7 +6,7 @@ http://www.geekpress.fr/wp-query-creez-des-requetes-personnalisees-dans-vos-them
 /**
 Chargement des scripts du front-end
  */
-define('DENFERT_VERSION', '0.1.0');
+define('DENFERT_VERSION', '0.2.0');
 
 // Chargement dans le front-end
 function denfert_enqueue_scripts()
@@ -18,7 +18,6 @@ function denfert_enqueue_scripts()
     // le thème W3
     // wp_enqueue_style('denfert-w3-theme', get_template_directory_uri() . '/css/w3-theme-teal.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
-    // wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-' . denfert_get_w3_theme() . '.css', array('denfert-w3'), DENFERT_VERSION, 'all');
     $options = get_option('denfert_options');
     wp_enqueue_style('denfert-w3-theme', 'https://www.w3schools.com/lib/w3-theme-'.$options['theme-w3css'].'.css', array('denfert-w3'), DENFERT_VERSION, 'all');
 
@@ -58,12 +57,12 @@ function denfert_admin_init()
     add_settings_section('denfert_main', // identifiant unique de la section
         'Choix du thème de la feuille de style W3.CSS', // titre de la section
         'denfert_section_text', // fonction d'affichage de la section
-        'denfert_theme_options'); // slug de la page fonction appelé par do_settings_sections
+        'options_theme'); // slug de la page fonction appelé par do_settings_sections
     // Création du champ de saisie
     add_settings_field('denfert_theme_w3css', // id du champ
         'Nom du thème W3.CSS', // son label
         'denfert_setting_theme_w3css', // sa fonction pour l'afficher
-        'denfert_theme_options', // le slug de la page
+        'options_theme', // le slug de la page
         'denfert_main'); // id de la section
 
 } // denfert_admin_init
@@ -78,12 +77,12 @@ Ajout d'un menu dans les options du thème
          'Denfert Options', // Title de la page du menu
          'Options du thème', // Titre de la page 
          'manage_options', // le menu sera placé en dessous
-         'denfert_theme_options', // slug du menu
+         'options_theme', // slug du menu
          'denfert_options_page' // function qui affichera la page
      );
  
      // Contient la fonction denfert_options_page
-     include 'denfert-options-page.php';
+     include 'options-page.php';
  
  }
  add_action('admin_menu', 'denfert_admin_menus');
@@ -275,22 +274,6 @@ function denfert_get_categories_tags($status)
     }
     wp_reset_postdata();
     return array('categories' => $cata, 'tags' => $taga);
-}
-
-/**
-Obtention du thème W3.CSS
- */
-function denfert_get_w3_theme()
-{
-    $theme_str = get_custom('w3_theme');
-    $themes = preg_split("/\n/", $theme_str);
-    $w3_theme = "indigo";
-    foreach ($themes as $theme => $val) {
-        if (preg_match('/^\*./', $val)) {
-            $w3_theme = str_replace("\r", "", str_replace("*", "", $val));
-        }
-    }
-    return $w3_theme;
 }
 
 /**

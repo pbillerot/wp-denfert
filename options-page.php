@@ -10,7 +10,7 @@ function denfert_options_page() {
     <h1>Options du thème Denfert</h1>
     <form action="options.php" method="post">
     <?php settings_fields('denfert_options'); // sécurisation de la transaction ?>
-    <?php do_settings_sections('denfert_theme_options'); // section des champs input ?>
+    <?php do_settings_sections('options_theme'); // section des champs input ?>
     
     <input name="Submit" type="submit" value="<?php esc_attr_e('Enregistrer'); ?>" />
     </form>
