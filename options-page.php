@@ -22,16 +22,11 @@ function denfert_options_page() {
 Affichage de la section
  */
 function denfert_section_text() {
-    echo '<p>La description des feuilles de styles de <a href="https://www.w3schools.com/w3css/w3css_color_themes.asp" target="_blank">W3.CSS</a></p>';
+    echo '<p>Les goûts et couleurs, prenez votre décision ici <a href="https://www.w3schools.com/w3css/w3css_color_themes.asp" target="_blank">W3.CSS</a></p>';
 }
 
 /**
 Saisie du champ theme_w3css
-<select id="monselect">
-  <option value="valeur1">Valeur 1</option> 
-  <option value="valeur2" selected>Valeur 2</option>
-  <option value="valeur3">Valeur 3</option>
-</select>
 */
 function denfert_setting_theme_w3css() {
     $themes = array('indigo','dark-grey','brown','blue-grey','deep-purple','blue'

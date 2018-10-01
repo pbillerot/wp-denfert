@@ -70,18 +70,28 @@ add_action('admin_init', 'denfert_admin_init');
 
 /**
 Ajout d'un menu dans les options du thème
+https://codex.wordpress.org/Adding_Administration_Menus
  */
  function denfert_admin_menus()
  {
-     add_menu_page(
-         'Denfert Options', // Title de la page du menu
-         'Options du thème', // Titre de la page 
-         'manage_options', // le menu sera placé en dessous
-         'options_theme', // slug du menu
-         'denfert_options_page' // function qui affichera la page
-     );
- 
-     // Contient la fonction denfert_options_page
+    // Menu Raccroché en bas 
+    //  add_menu_page(
+    //      'Denfert Options', // Title de la page du menu
+    //      'Options du thème', // Titre de la page 
+    //      'manage_options', // le menu sera placé en dessous
+    //      'options_theme', // slug du menu
+    //      'denfert_options_page' // function qui affichera la page
+    //  );
+
+    // Menu ajouté dans le menu Apparence
+     add_theme_page(
+        'Denfert Options', // Title de la page du menu
+        'Options du thème', // Titre de la page 
+        'manage_options', // le menu sera placé en dessous
+        'options_theme', // slug du menu
+        'denfert_options_page' // function qui affichera la page
+    );
+    // Contient la fonction denfert_options_page
      include 'options-page.php';
  
  }

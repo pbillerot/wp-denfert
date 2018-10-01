@@ -77,7 +77,7 @@ $req_blog = new WP_Query($args_blog);
       <?php if ( is_user_logged_in() ): ?>
         <p>
         <input id="denfert_private_checked_id" class="w3-check" type="checkbox" <?php echo is_denfert_cookie('denfert_private_checked') ? 'checked="checked"' : '';?>>
-        <label>Articles Privés seulement</label>
+        <label for="denfert_private_checked_id">Articles Privés seulement</label>
         </p>
       <?php endif; ?>
     </div><!-- container -->
