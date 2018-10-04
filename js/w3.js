@@ -1,5 +1,5 @@
 /**
- * Script du thème 
+ * Script du style W3.CSS
  */
 // Script to open and close sidebar
 function w3_open() {

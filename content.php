@@ -7,10 +7,6 @@
   // dump(home_url( add_query_arg( array(), $wp->request ) ));
   // dump(add_query_arg( array(), $wp->request ) );
   $page_name = add_query_arg( array(), $wp->request );
-  if ( $page_name == 'espace-prive' ) {
-    get_template_part('meta-espace-prive');
-  } else {
-    get_template_part('meta');
-  }
+  get_template_part('meta');
   ?>
 </div>

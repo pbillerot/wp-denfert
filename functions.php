@@ -142,25 +142,6 @@ function denfert_setup()
 add_action('after_setup_theme', 'denfert_setup');
 
 /**
-Affichage date + catégories + étiquettes de l'article lu
- */
-function denfert_get_meta_01()
-{
-
-    $chaine = 'publié le <time class="entry-date" datetime="';
-    $chaine .= esc_attr(get_the_date('c')); // date format interne
-    $chaine .= '">';
-    $chaine .= esc_html(get_the_date()); // date format humain
-    $chaine .= '</time> dans la catégorie: ';
-    $chaine .= get_the_category_list(', ');
-    $tags = get_the_tag_list('', ', ');
-    if (strlen($tags) > 0):
-        $chaine .= ' avec les étiquettes: ' . $tags;
-    endif;
-    return $chaine;
-}
-
-/**
 Modification du texte "lire la suite"
  */
 function denfert_excert_more($more)
