@@ -13,10 +13,10 @@
           if ( is_user_logged_in()
           and is_denfert_cookie("denfert_private_checked") ):
             if ( $post->post_status == 'private'):
-              get_template_part('content');
+              get_template_part('excerpt');
             endif;
           else:
-            get_template_part('content');
+            get_template_part('excerpt');
           endif;
           ?>
         <?php endwhile;?>

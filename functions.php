@@ -268,6 +268,43 @@ function denfert_get_categories_tags($status)
 }
 
 /**
+Obtention des catégories d'un tag particulier
+ */
+ function denfert_get_categories_from_tag($status, $tag)
+ {
+     // dump($status);
+     $args = array(
+         'post_type' => 'post',
+         'post_status' => $status, // ça ne marche pas
+         'posts_per_page' => -1,
+         'cat' => $tag
+     );
+     $req = new WP_Query($args);
+     $cata = array();
+     $taga = array();
+     if ($req->have_posts()) {
+         while ($req->have_posts()) {
+             $req->the_post();
+             global $post;
+             if ( strpos($status, $post->post_status) !== false ):
+                 $cats = get_the_category();
+                 foreach ($cats as $cat) {
+                     $cata[$cat->slug] = $cat->name;
+                 }
+                 $tags = get_the_tags();
+                 if ($tags) {
+                     foreach ($tags as $tag) {
+                         $taga[$tag->slug] = $tag->name;
+                     }
+                 }
+             endif;
+         }
+     }
+     wp_reset_postdata();
+     return array('categories' => $cata, 'tags' => $taga);
+ }
+ 
+ /**
 Is cookie
 */
 function is_denfert_cookie($cookie_name) {
